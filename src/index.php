@@ -43,7 +43,9 @@ class Chunk
         $chunk_files_size = array_sum($size_of_uploaded_chunks) + $data['file_size'];
 
         # If the client has exceeded the max upload size
-        if ($data['max_upload'] < $chunk_files_size) throw new Exception($data['errors']['max_upload'] || "You've reached to the max file upload");
+        if ($data['max_upload'] < $chunk_files_size || $data['max_upload'] < $data['file_size']) {
+            throw new Exception($data['errors']['max_upload'] || "You've reached to the max file upload");
+        }
 
         # If it's the last chunk
         if ($data['chunks_count'] <= count($uploaded_chunks)) {

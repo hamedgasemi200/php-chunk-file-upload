@@ -1,26 +1,42 @@
- Laravel package for chunk file uploading
+## Php Chunk File Upload
 
-
-A light weight laravel chunk file uploader. Compatible with almost all the versions of Laravel.
+A light weight PHP package for handling the chunk file upload. Compatible with almost all the versions of Laravel.
 
 # Usage
 
-To use this library simply run the Upload function of Chunks class statically. It takes 4 required parameters:
+To use this library simply run the "Upload" method of Chunk class statically. It takes an array which the following keys are required:
 
-+ The Incoming Chunk File => An object of \Illuminate\Http\File|\Illuminate\Http\UploadedFile
-+ The name of the final file => A string
-+ The index/number of the chunk => An integer
-+ The count of the total chunks => An integer
++ `chunk_number` => The number of the chunk. It has to be increased for each of the chnuk files in order.
++ `chunks_count` => Total number of the chunk files.
++ `chunk_path` => The path of the incoming chunk file
++ `max_upload` => By default it's bytes. If user tries to upload more than max_upload (max_upload < file_size), it will return an error.
++ `file_size` => The size of the mail file.
++ `file_name` => The name of the final file
 
-What does the function return? It has 2 states. If everything goes fine, it returns the path of the uploaded file. Otherwise, if upload failes it returns null.
+## return
+
+The function has 2 states.
+
++ If the chunk file be uploaded fine, it will return a `float` representing the percentage of the upload.
++ If all the chunks be uploaded fine, it will return an `string` representing the path of the final file.
+
+# Example
 
 Here is an example of resumable js library requests.
 
 ```
-use Hamedgasemi\ChunkUpload\Chunks;
-
-$file_path = Chunks::Upload($request->file('file'), $request->resumableFilename, $request->resumableChunkNumber, $request->resumableTotalChunks);
-
-if($file_path) echo ("The file is uploaded successfully");
-else echo ("Upload Failed");
+try {
+   $file_path = Chunk::Upload([
+      'chunk_path' => $request->file('file')->getRealPath(),
+      'file_name' => $request->resumableFilename,
+      'chunk_number' => $request->resumableChunkNumber,
+      'chunks_count' => $request->resumableTotalChunks,
+      'file_size' => $request->resumableTotalSize,
+      'max_upload' => 5 * pow(10, 6),
+      'errors' => ['max_upload' => "Low Space"],
+   ]);
+} catch (Exception $exception) {
+   return response($exception->getMessage(), 403);
+   }
+}
 ```
