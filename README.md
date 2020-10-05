@@ -51,7 +51,6 @@ try {
    ]);
 } catch (Exception $exception) {
    return response($exception->getMessage(), 403);
-   }
 }
 
 if (is_string($file_path)) echo("File path: $file_path"); // Upload has finished. You can move the file.
