@@ -9,9 +9,13 @@ To use this library simply run the "Upload" method of Chunk class statically. It
 + `chunk_number` => The number of the chunk. It has to be increased for each of the chnuk files in order.
 + `chunks_count` => Total number of the chunk files.
 + `chunk_path` => The path of the incoming chunk file
-+ `max_upload` => By default it's bytes. If user tries to upload more than max_upload (max_upload < file_size), it will return an error.
 + `file_size` => The size of the mail file.
 + `file_name` => The name of the final file
+
+And the following fields are arbitrary:
+
++ `max_upload` => By default it's bytes. If user tries to upload more than max_upload (max_upload < file_size), it will return an error.
++ `chunk_folder` => The folder which all the chunks will be placed in.
 
 ## Method return
 
@@ -39,4 +43,7 @@ try {
    return response($exception->getMessage(), 403);
    }
 }
+
+if (is_string($file_path)) echo("File path: $file_path"); // Upload has finished. You can move the file.
+else echo("Progress: {$file_path}%") // Chunk has been uploaded. Print the percentage of the upload ;)
 ```
