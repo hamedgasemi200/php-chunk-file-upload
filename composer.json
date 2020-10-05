@@ -1,0 +1,22 @@
+{
+  "name": "hamed/php-chunk-file-upload",
+  "description": "A Laravel package for handling the chunk file uploads.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "x4748",
+      "email": "hamedgasemi200@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Hamed\\ChunkFile\\": "src/"
+    }
+  },
+  "require": {
+    "illuminate/http": "5.2 - 5.8 | ^6.0 | ^7.0 | ^8.0",
+    "illuminate/filesystem": "5.2 - 5.8 | ^6.0 | ^7.0 | ^8.0"
+  }
+}
