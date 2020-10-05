@@ -1,8 +1,8 @@
-## Php Chunk File Upload
+# Php Chunk File Upload
 
 A light weight PHP package for handling the chunk file upload. Compatible with almost all the versions of Laravel.
 
-# Usage
+## Usage
 
 To use this library simply run the "Upload" method of Chunk class statically. It takes an array which the following keys are required:
 
@@ -13,14 +13,14 @@ To use this library simply run the "Upload" method of Chunk class statically. It
 + `file_size` => The size of the mail file.
 + `file_name` => The name of the final file
 
-## return
+## Method return
 
 The function has 2 states.
 
 + If the chunk file be uploaded fine, it will return a `float` representing the percentage of the upload.
 + If all the chunks be uploaded fine, it will return an `string` representing the path of the final file.
 
-# Example
+## Example
 
 Here is an example of resumable js library requests.
 
