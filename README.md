@@ -1,6 +1,6 @@
 # Php Chunk File Upload
 
-A light weight PHP package for handling the chunk file upload. Compatible with almost all the versions of Laravel.
+A lightweight PHP package for handling the chunk file upload. Compatible with almost all the versions of Laravel.
 
 ## Usage
 
