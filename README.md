@@ -17,7 +17,7 @@ And the following fields are arbitrary:
 + `max_upload` => By default it's bytes. If user tries to upload more than max_upload (max_upload < file_size), it will return an error.
 + `chunk_folder` => The folder which all the chunks will be placed in.
 
-## Method return
+## Method returns
 
 The function has 2 states.
 
