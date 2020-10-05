@@ -2,6 +2,16 @@
 
 A lightweight PHP package for handling the chunk file upload. Compatible with almost all the versions of Laravel.
 
+## Installation
+
+You can simply install the package using the composer.
+
+```
+composer require hamed/php-chunk-file-upload
+```
+
+https://packagist.org/packages/hamed/php-chunk-file-upload
+
 ## Usage
 
 To use this library simply run the "Upload" method of Chunk class statically. It takes an array which the following keys are required:
