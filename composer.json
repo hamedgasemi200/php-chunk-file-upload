@@ -12,6 +12,7 @@
   "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
+      "App\\": "app/",
       "Hamed\\ChunkFile\\": "src/"
     }
   },
