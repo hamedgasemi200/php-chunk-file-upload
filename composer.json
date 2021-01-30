@@ -1,12 +1,16 @@
 {
   "name": "hamed/php-chunk-file-upload",
   "description": "A Laravel package for handling the chunk file uploads.",
+  "keywords": ["upload","file","chunk"],
+  "homepage": "https://tridectet.ir",
   "type": "library",
   "license": "MIT",
   "authors": [
     {
       "name": "x4748",
-      "email": "hamedgasemi200@gmail.com"
+      "email": "hamedgasemi200@gmail.com",
+      "homepage": "https://tridectet.ir",
+      "role": "Developer"
     }
   ],
   "minimum-stability": "dev",
