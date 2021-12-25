@@ -32,7 +32,7 @@ class Uploader
     protected function makeOneFile($directory, $chunks)
     {
         $file_name = basename($directory);
-        $file_path = "$directory/$file_name";
+        $file_path = "$directory/../$file_name.done";
 
         # Write chunks to one file
         $file = fopen($file_path, 'w');
@@ -47,6 +47,9 @@ class Uploader
             unlink($part_path);
         }
         fclose($file);
+
+        # Delete directory completely.
+        File::deleteDirectory($directory);
 
         # Return File Path
         return $file_path;
