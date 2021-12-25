@@ -12,7 +12,7 @@ class Uploader
 
     public function __construct($config = [])
     {
-        $this->chunks_folder = rtrim($config['chunks_folder'], '/') ?? storage_path("app/chunks");
+        $this->chunks_folder = rtrim($config['chunks_folder'] ?? storage_path("app/chunks"), '/');
         $this->max_upload = $config['max_upload'] ?? 500 * pow(10, 6);
     }
 
@@ -32,7 +32,7 @@ class Uploader
     protected function makeOneFile($directory, $chunks)
     {
         $file_name = basename($directory);
-        $file_path = "$directory/../$file_name.done";
+        $file_path = "$this->chunks_folder/$file_name.done";
 
         # Write chunks to one file
         $file = fopen($file_path, 'w');
@@ -42,9 +42,6 @@ class Uploader
 
             # Write the content of the part to the file
             fwrite($file, file_get_contents($part_path));
-
-            # Delete chunk file
-            unlink($part_path);
         }
         fclose($file);
 
