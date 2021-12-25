@@ -14,7 +14,18 @@ https://packagist.org/packages/hamed/php-chunk-file-upload
 
 ## Usage
 
-To use this package, simply, run the "Upload" method of `Uploader` after making the object. It needs a/an hashtable/array with the following keys:
+To use this package, first, make an object of the `Uploader` class, and then, run the "Upload" method.
+
+#### Constructor
+
+The constructor, take 2 arbitrary keys and values to config the package.
+
++ `max_upload` => Bytes of the max upload; if user tries to upload more than max_upload (max_upload < file_size), am error will be returned.
++ `chunk_folder` => The folder which all the chunk files will be placed in.
+
+#### Upload
+
+The `Upload` method, takes the following keys and values
 
 + `chunk_number` => The number of the chunk. It has to be increased for each of the chnuk files in order.
 + `chunks_count` => Total number of the chunk files.
@@ -22,17 +33,12 @@ To use this package, simply, run the "Upload" method of `Uploader` after making 
 + `file_size` => The size of the mail file.
 + `file_name` => The name of the final file
 
-And the following fields are arbitrary for the constructor:
+##### Method returns
 
-+ `max_upload` => By default it's bytes. If user tries to upload more than max_upload (max_upload < file_size), it will return an error.
-+ `chunk_folder` => The folder which all the chunks will be placed in.
+The `Upload` method returns the following
 
-## Method returns
-
-The function has 2 states.
-
-+ If the chunk file be uploaded fine, it will return a `float` representing the percentage of the upload.
-+ If all the chunks be uploaded fine, it will return an `string` representing the path of the final file.
++ If not the last chunk file were uploaded fine, it will return a `float` representing the percentage of the upload.
++ If all the chunks were uploaded fine, it will return a `string` representing the path of the final file.
 
 ## Example
 
