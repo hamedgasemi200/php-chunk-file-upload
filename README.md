@@ -14,7 +14,7 @@ https://packagist.org/packages/hamed/php-chunk-file-upload
 
 ## Usage
 
-To use this library simply run the "Upload" method of Chunk class statically. It takes an array which the following keys are required:
+To use this package, simply, run the "Upload" method of `Uploader` after making the object. It needs a/an hashtable/array with the following keys:
 
 + `chunk_number` => The number of the chunk. It has to be increased for each of the chnuk files in order.
 + `chunks_count` => Total number of the chunk files.
@@ -22,7 +22,7 @@ To use this library simply run the "Upload" method of Chunk class statically. It
 + `file_size` => The size of the mail file.
 + `file_name` => The name of the final file
 
-And the following fields are arbitrary:
+And the following fields are arbitrary for the constructor:
 
 + `max_upload` => By default it's bytes. If user tries to upload more than max_upload (max_upload < file_size), it will return an error.
 + `chunk_folder` => The folder which all the chunks will be placed in.
@@ -39,8 +39,12 @@ The function has 2 states.
 Here is an example of resumable js library requests.
 
 ```
+use Hamed\ChunkFile\Uploader;
+
+...
+
 try {
-   $file_path = Chunk::Upload([
+   $file_path = (new Uploader())->Upload([
       'chunk_path' => $request->file('file')->getRealPath(),
       'file_name' => $request->resumableFilename,
       'chunk_number' => $request->resumableChunkNumber,
