@@ -58,32 +58,27 @@ class Uploader
             ]
         ], $data);
 
-        # Make a relatively unique directory name.
+        # Make a relatively unique directory.
         $tmp_dir_name = md5("{$data['file_name']}-{$data['chunks_count']}");
-
-        # Make the temp directory.
-        $tmp_dir = rtrim($this->chunks_folder, '/') . '/' . $tmp_dir_name;
-        if (!is_dir($tmp_dir)) mkdir($tmp_dir, 0777, true);
+        $tmp_dir_path = rtrim($this->chunks_folder, '/') . "/$tmp_dir_name";
+        if (!is_dir($tmp_dir_path)) mkdir($tmp_dir_path, 0777, true);
 
         # Move the chunk file, to a temporary directory.
-        rename($data['chunk_path'], "$tmp_dir/{$data['file_name']}.part{$data['chunk_number']}");
+        rename($data['chunk_path'], "$tmp_dir_path/$tmp_dir_name.part{$data['chunk_number']}");
 
         # Get all chunks
-        $uploaded_chunks = glob("$tmp_dir/*");
-
-        # Get sum of the size of the all chunks
-        $size_of_uploaded_chunks = array_map('filesize', $uploaded_chunks);
-        $chunk_files_size = array_sum($size_of_uploaded_chunks) + $data['file_size'];
+        $uploaded_chunks = glob("$tmp_dir_path/*");
+        $chunks_size = array_sum(array_map('filesize', $uploaded_chunks));
 
         # If the client has exceeded the max upload size
-        if ($this->max_upload < $chunk_files_size || $this->max_upload < $data['file_size']) {
+        if ($this->max_upload < $chunks_size || $this->max_upload < $data['file_size']) {
             throw new Exception($data['errors']['max_upload'] || "You've reached to the max file upload");
         }
 
         # If it's the last chunk
         if ($data['chunks_count'] <= count($uploaded_chunks)) {
             # Make chunk files, one file
-            return $this->make_one_file($tmp_dir, $uploaded_chunks);
+            return $this->make_one_file($tmp_dir_path, $uploaded_chunks);
         } else {
             # Return the percentage
             return 100 * ($data['chunk_number'] / $data['chunks_count']);
