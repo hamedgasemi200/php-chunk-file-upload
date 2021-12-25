@@ -51,15 +51,17 @@ class Uploader
     {
         # Set Default Values
         $data = array_merge([
+            'chunks_count' => 0,
             'chunk_number' => null,
             'chunk_path' => null,
+            'file_name' => null,
             'errors' => [
                 'max_upload' => "You've reached the max file upload"
             ]
         ], $data);
 
         # Make a relatively unique directory.
-        $tmp_dir_name = md5("{$data['file_name']}-{$data['chunks_count']}");
+        $tmp_dir_name = md5("{$data['file_name']}{$data['chunks_count']}");
         $tmp_dir_path = rtrim($this->chunks_folder, '/') . "/$tmp_dir_name";
         if (!is_dir($tmp_dir_path)) mkdir($tmp_dir_path, 0777, true);
 
@@ -67,7 +69,7 @@ class Uploader
         rename($data['chunk_path'], "$tmp_dir_path/$tmp_dir_name.part{$data['chunk_number']}");
 
         # Get all chunks
-        $uploaded_chunks = glob("$tmp_dir_path/*");
+        $uploaded_chunks = glob("$tmp_dir_path/*.part[0-9]*");
         $chunks_size = array_sum(array_map('filesize', $uploaded_chunks));
 
         # If the client has exceeded the max upload size
