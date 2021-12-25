@@ -15,7 +15,7 @@ class Uploader
         $this->max_upload = $config['max_upload'] ?? 500 * pow(10, 6);
     }
 
-    protected function make_one_file($directory, $chunks_count)
+    protected function make_one_file($directory, $chunks)
     {
         # Write chunks in a file
         $file_name = basename($directory);
@@ -23,7 +23,7 @@ class Uploader
 
         # Write chunks to one file
         $file = fopen($file_path, 'w');
-        for ($i = 1; $i <= $chunks_count; $i++) {
+        foreach ($chunks as $i => $chunk) {
             # Get part path
             $part_path = "$directory/$file_name.part{$i}";
 
