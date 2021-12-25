@@ -1,0 +1,30 @@
+{
+  "name": "hamed/php-chunk-file-upload",
+  "description": "A PHP package for handling the chunk file uploads.",
+  "keywords": [
+    "upload",
+    "file",
+    "chunk"
+  ],
+  "homepage": "https://tridectet.ir",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "x4748",
+      "email": "hamedgasemi200@gmail.com",
+      "homepage": "https://tridectet.ir",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Hamed\\ChunkFile\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^7.3|^8.0"
+  }
+}
