@@ -17,13 +17,12 @@ class Uploader
 
     protected function make_one_file($directory, $chunks)
     {
-        # Write chunks in a file
         $file_name = basename($directory);
         $file_path = "$directory/$file_name";
 
         # Write chunks to one file
         $file = fopen($file_path, 'w');
-        foreach ($chunks as $i => $chunk) {
+        for ($i = 1; $i <= count($chunks); $i++) {
             # Get part path
             $part_path = "$directory/$file_name.part{$i}";
 
