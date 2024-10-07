@@ -7,13 +7,22 @@ use Exception;
 
 class Uploader
 {
-    public $chunks_folder = '';
-    public $max_upload = 0;
+    public string $chunks_folder = '';
+    public int $max_upload = 0;
+    public array $errors = [];
 
-    public function __construct($config = [])
+    public function __construct($config = [], $errors = [])
     {
-        $this->chunks_folder = rtrim($config['chunks_folder'] ?? storage_path("app/chunks"), '/');
+        // Set chunks folder
+        $this->chunks_folder = isset($config['chunks_folder']) ? rtrim($config['chunks_folder'], '/') : storage_path("app/chunks");
+
+        // Max upload size in MB
         $this->max_upload = $config['max_upload'] ?? 500 * pow(10, 6);
+
+        // Set  errors
+        $this->errors = array_merge([
+            'max_upload' => "You've reached the max file upload"
+        ], $errors);
     }
 
     public function clearChunksOlderThan($days = 7)
@@ -32,7 +41,7 @@ class Uploader
     protected function makeOneFile($directory, $chunks)
     {
         $file_name = basename($directory);
-        $file_path = "$this->chunks_folder/$file_name.done";
+        $file_path = "$directory/$file_name";
 
         # Write chunks to one file
         $file = fopen($file_path, 'w');
@@ -42,11 +51,11 @@ class Uploader
 
             # Write the content of the part to the file
             fwrite($file, file_get_contents($part_path));
+
+            # Delete chunk file
+            unlink($part_path);
         }
         fclose($file);
-
-        # Delete directory completely.
-        File::deleteDirectory($directory);
 
         # Return File Path
         return $file_path;
@@ -60,17 +69,14 @@ class Uploader
      * @return mixed
      * @throws Exception
      */
-    public function Upload($data)
+    public function Upload(array $data)
     {
         # Set Default Values
         $data = array_merge([
             'chunks_count' => 0,
-            'chunk_number' => null,
+            'chunk_number' => 0,
             'chunk_path' => null,
             'file_name' => null,
-            'errors' => [
-                'max_upload' => "You've reached the max file upload"
-            ]
         ], $data);
 
         # Make a relatively unique directory.
@@ -87,7 +93,7 @@ class Uploader
 
         # If the client has exceeded the max upload size
         if ($this->max_upload < $chunks_size || $this->max_upload < $data['file_size']) {
-            throw new Exception($data['errors']['max_upload'] || "You've reached to the max file upload");
+            throw new Exception($this->errors['max_upload'] || "You've reached to the max file upload");
         }
 
         # If it's the last chunk
